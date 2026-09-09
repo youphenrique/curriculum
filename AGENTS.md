@@ -22,12 +22,26 @@ it to the `build` branch on every push.
 
 ## Build and verification
 
-- Build locally with `make` (runs `latexmk -pdf cv.tex`).
+- Build locally with `make` (runs `latexmk -pdf cv.tex`). If `latexmk`/
+  `pdflatex` aren't installed (they aren't on every machine), fall back to
+  `tectonic cv.tex` — it needs no separate TeX Live install and produces the
+  same `cv.pdf`.
 - Use `make clean` to remove intermediate build files, or `make distclean` to
   also remove the generated PDF.
-- After changes to TeX or bibliography files, run `make` and resolve errors,
-  warnings that affect output, overflow, missing references, and undefined
-  citations. Visually inspect `cv.pdf` when layout may have changed.
+- After changes to TeX or bibliography files, run `make` (or `tectonic
+  cv.tex`) and resolve errors, warnings that affect output, overflow, missing
+  references, and undefined citations. Visually inspect `cv.pdf` when layout
+  may have changed.
+
+## CI/CD prerequisite
+
+- The `deploy` job in `.github/workflows/build.yml` pushes to the `build`
+  branch using the default `GITHUB_TOKEN`. This requires the repo's Actions
+  workflow permissions to be set to "Read and write permissions" (Settings →
+  Actions → General → Workflow permissions) — the GitHub default is
+  read-only, which makes `deploy` fail with a 403. This setting lives outside
+  the repo (it's not in any tracked file), so it's easy to forget after a
+  fork or a fresh clone into a new repo.
 
 ## Style
 

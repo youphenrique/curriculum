@@ -1,1 +1,1 @@
-/Users/phenrique/WebstormProjects/phenrique.me/AGENTS.md
+AGENTS.md
