@@ -34,7 +34,11 @@ jobs:
         with:
           path: github_artifacts
       - name: move
-        run: mkdir -p github_deploy && mv github_artifacts/*/* github_deploy
+        run: |
+          mkdir -p github_deploy
+          mv github_artifacts/*/* github_deploy
+          cp index.html CNAME github_deploy/
+          touch github_deploy/.nojekyll
       - name: deploy on orphan branch
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -42,16 +46,3 @@ jobs:
           publish_dir: ./github_deploy
           publish_branch: build
           force_orphan: true
-          enable_jekyll: true
-  copy-index-to-build:
-    needs: [deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Copy To Branches Action
-        uses: planetoftheweb/copy-to-branches@v1.3
-        env:
-          key: main
-          files: index.html CNAME
